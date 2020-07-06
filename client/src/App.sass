@@ -1,1 +1,200 @@
 @import '../node_modules/bootstrap/scss/bootstrap'
+
+$--primary-peach: #FFF6E9
+$--mid-peach: #FFE4BD
+$--dark-peach: #FFB549
+$--soft-pink: #FFA9A9
+$--hot-pink: #FF0000
+
+*
+    margin: 0
+    padding: 0
+    box-sizing: border-box
+
+body
+    // overflow: hidden
+
+.App
+    width: 100vw
+    height: 100vh
+    position: relative
+    background-color: $--primary-peach
+
+.home-screen
+    width: 100%
+    height: 100%
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: flex-start
+    padding: 2em
+    position: relative
+    .player-name-header
+        display: flex
+        width: 100%
+        .player-name-box
+            width: 50%
+            display: flex
+            flex-direction: column
+            align-items: center
+            span.player-name
+                font-size: 1.25em
+                color: $--dark-peach
+            span.material-icons
+                font-size: 3em
+                color: $--soft-pink
+            span.material-icons.is-active
+                color: $--hot-pink
+    .game-grid
+        margin-top: 5em
+        display: grid
+        height: 18em
+        width: 18em
+        grid-template-columns: 1fr 1fr 1fr
+        column-gap: 0.2em
+        row-gap: 0.2em
+        .game-cell
+            width: 100%
+            height: 100%
+            background-color: $--mid-peach
+            border-radius: 10px
+            box-shadow: 0 0 3px rgba(0,0,0,0.16)
+            &:hover
+                box-shadow: 0 3px 10px rgba(0,0,0,0.16)
+
+    .wait-box
+        display: flex
+        flex-direction: column
+        align-self: center
+        justify-self: center
+        align-items: center
+        margin: 2em 0
+        .player-box
+            display: flex
+            flex-direction: column
+            .player-tile
+                padding: 1em
+                background-color: $--mid-peach
+                border-radius: 10px
+                box-shadow: 0 0 3px rgba(0,0,0,0.16)
+                display: flex
+                align-items: center
+                width: 60vw
+                max-width: 15em
+                cursor: pointer
+                margin: 1em 0
+                transition: 0.3s ease
+                span.player-name
+                    margin-left: 1em
+                    font-size: 1.25em
+                    color: $--dark-peach
+                span.material-icons
+                    font-size: 5em
+                    color: $--soft-pink
+                    font-weight: 400
+                    user-select: none
+        .code-tile
+            margin-bottom: 2em
+            padding: 0.5em
+            background-color: $--mid-peach
+            border-radius: 5px
+            box-shadow: 0 0 3px rgba(0,0,0,0.16)
+            display: flex
+            align-items: center
+            justify-content: center
+            position: relative
+            cursor: pointer
+            width: 10em
+            span.code-text
+                color: $--dark-peach
+            span.material-icons
+                position: absolute
+                right: 0
+                transform: translateX(-100%)
+                font-size: 1em
+                color: $--dark-peach
+
+
+    .choose-box
+        display: flex
+        flex-direction: column
+        align-self: center
+        justify-self: center
+        margin: 3em 0
+        .tile
+            padding: 1em
+            background-color: $--mid-peach
+            border-radius: 10px
+            box-shadow: 0 0 3px rgba(0,0,0,0.16)
+            display: flex
+            flex-direction: column
+            align-items: center
+            width: 60vw
+            max-width: 15em
+            cursor: pointer
+            margin: 1em 0
+            transition: 0.3s ease
+            span.sub
+                color: $--soft-pink
+            span.material-icons
+                font-size: 5em
+                color: $--soft-pink
+                font-weight: 400
+                user-select: none
+            &:hover
+                box-shadow: 0 3px 10px rgba(0,0,0,0.3)
+                // span.material-icons
+                //     color: $--hot-pink
+                // span.sub
+                //     color: $--hot-pink
+        .tile.is-active
+            // box-shadow: 0 3px 10px rgba(0,0,0,0.3)
+            span.material-icons
+                color: $--hot-pink
+            span.sub
+                color: $--hot-pink
+    .home-logo
+        position: absolute
+        left: 0
+        fill: $--hot-pink
+        margin: 0 2em
+        cursor: pointer
+        &:hover
+            opacity: 0.6
+    label
+        color: $--dark-peach
+        font-size: 0.8em
+    h5
+        font-size: 1.3em
+        font-weight: 500
+        color: $--dark-peach
+    input
+        font-size: 1em
+        margin: 0.5em 0
+        color: $--soft-pink
+        &::placeholder
+            color: $--soft-pink
+            opacity: 0.5
+        &:focus
+            color: $--soft-pink
+    button
+        font-size: 0.8em
+        margin: 0.5em 0
+        color: $--soft-pink
+    .center-area
+        width: 70%
+        max-width: 15em
+        margin: 2em 0
+        align-self: center
+        justify-self: center
+        display: flex
+        flex-direction: column
+        .btn-container
+            display: flex
+            flex-direction: column
+        .ca-box
+            margin: 2em 0
+        .span-or
+            font-size: 1.25em
+            align-self: center
+            color: #ffb977d3

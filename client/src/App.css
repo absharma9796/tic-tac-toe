@@ -7160,3 +7160,184 @@ a.text-dark:hover, a.text-dark:focus {
   .table .thead-dark th {
     color: inherit;
     border-color: #dee2e6; } }
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; }
+
+.App {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background-color: #FFF6E9; }
+
+.home-screen {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2em;
+  position: relative; }
+  .home-screen .player-name-header {
+    display: flex;
+    width: 100%; }
+    .home-screen .player-name-header .player-name-box {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center; }
+      .home-screen .player-name-header .player-name-box span.player-name {
+        font-size: 1.25em;
+        color: #FFB549; }
+      .home-screen .player-name-header .player-name-box span.material-icons {
+        font-size: 3em;
+        color: #FFA9A9; }
+      .home-screen .player-name-header .player-name-box span.material-icons.is-active {
+        color: #FF0000; }
+  .home-screen .game-grid {
+    margin-top: 5em;
+    display: grid;
+    height: 18em;
+    width: 18em;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 0.2em;
+    row-gap: 0.2em; }
+    .home-screen .game-grid .game-cell {
+      width: 100%;
+      height: 100%;
+      background-color: #FFE4BD;
+      border-radius: 10px;
+      box-shadow: 0 0 3px rgba(0, 0, 0, 0.16); }
+      .home-screen .game-grid .game-cell:hover {
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.16); }
+  .home-screen .wait-box {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    justify-self: center;
+    align-items: center;
+    margin: 2em 0; }
+    .home-screen .wait-box .player-box {
+      display: flex;
+      flex-direction: column; }
+      .home-screen .wait-box .player-box .player-tile {
+        padding: 1em;
+        background-color: #FFE4BD;
+        border-radius: 10px;
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.16);
+        display: flex;
+        align-items: center;
+        width: 60vw;
+        max-width: 15em;
+        cursor: pointer;
+        margin: 1em 0;
+        transition: 0.3s ease; }
+        .home-screen .wait-box .player-box .player-tile span.player-name {
+          margin-left: 1em;
+          font-size: 1.25em;
+          color: #FFB549; }
+        .home-screen .wait-box .player-box .player-tile span.material-icons {
+          font-size: 5em;
+          color: #FFA9A9;
+          font-weight: 400;
+          user-select: none; }
+    .home-screen .wait-box .code-tile {
+      margin-bottom: 2em;
+      padding: 0.5em;
+      background-color: #FFE4BD;
+      border-radius: 5px;
+      box-shadow: 0 0 3px rgba(0, 0, 0, 0.16);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      cursor: pointer;
+      width: 10em; }
+      .home-screen .wait-box .code-tile span.code-text {
+        color: #FFB549; }
+      .home-screen .wait-box .code-tile span.material-icons {
+        position: absolute;
+        right: 0;
+        transform: translateX(-100%);
+        font-size: 1em;
+        color: #FFB549; }
+  .home-screen .choose-box {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    justify-self: center;
+    margin: 3em 0; }
+    .home-screen .choose-box .tile {
+      padding: 1em;
+      background-color: #FFE4BD;
+      border-radius: 10px;
+      box-shadow: 0 0 3px rgba(0, 0, 0, 0.16);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 60vw;
+      max-width: 15em;
+      cursor: pointer;
+      margin: 1em 0;
+      transition: 0.3s ease; }
+      .home-screen .choose-box .tile span.sub {
+        color: #FFA9A9; }
+      .home-screen .choose-box .tile span.material-icons {
+        font-size: 5em;
+        color: #FFA9A9;
+        font-weight: 400;
+        user-select: none; }
+      .home-screen .choose-box .tile:hover {
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3); }
+    .home-screen .choose-box .tile.is-active span.material-icons {
+      color: #FF0000; }
+    .home-screen .choose-box .tile.is-active span.sub {
+      color: #FF0000; }
+  .home-screen .home-logo {
+    position: absolute;
+    left: 0;
+    fill: #FF0000;
+    margin: 0 2em;
+    cursor: pointer; }
+    .home-screen .home-logo:hover {
+      opacity: 0.6; }
+  .home-screen label {
+    color: #FFB549;
+    font-size: 0.8em; }
+  .home-screen h5 {
+    font-size: 1.3em;
+    font-weight: 500;
+    color: #FFB549; }
+  .home-screen input {
+    font-size: 1em;
+    margin: 0.5em 0;
+    color: #FFA9A9; }
+    .home-screen input::placeholder {
+      color: #FFA9A9;
+      opacity: 0.5; }
+    .home-screen input:focus {
+      color: #FFA9A9; }
+  .home-screen button {
+    font-size: 0.8em;
+    margin: 0.5em 0;
+    color: #FFA9A9; }
+  .home-screen .center-area {
+    width: 70%;
+    max-width: 15em;
+    margin: 2em 0;
+    align-self: center;
+    justify-self: center;
+    display: flex;
+    flex-direction: column; }
+    .home-screen .center-area .btn-container {
+      display: flex;
+      flex-direction: column; }
+    .home-screen .center-area .ca-box {
+      margin: 2em 0; }
+    .home-screen .center-area .span-or {
+      font-size: 1.25em;
+      align-self: center;
+      color: #ffb977d3; }
