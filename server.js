@@ -25,7 +25,8 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 
-app.use(express.static(path.join(__dirname,'/build')));
+app.use(express.static(path.join(__dirname,'build')));
+
 app.post('/newgame', (req,res) => {
     console.log(req.body)
     const roomCode = `${Math.floor(100000 + Math.random() * 900000)}`;
