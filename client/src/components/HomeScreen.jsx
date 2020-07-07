@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import HomeLogo from '../images/HomeLogo';
 import socketIOClient from "socket.io-client";
-const ENDPOINT = "http://192.168.43.80:3000";
+const ENDPOINT = "https://tik-tac-do.herokuapp.com/";
 const socket = socketIOClient(ENDPOINT);
 
 const createRoom = ({username, avatar, roomCode}) => {
