@@ -10,7 +10,7 @@ const createRoom = ({username, avatar, roomCode}) => {
 }
 
 const joinRoom = ({username,code}) => {
-    console.log({username,code})
+    // console.log({username,code})
     socket.emit('join', {username,code})
 }
 
@@ -55,15 +55,15 @@ const HomeScreen = () => {
     }
 
     socket.on("code", data => {
-        console.log(data)
+        // console.log(data)
         const { createdBy, createdAvatar, player1, player2 } = data;
         if(createdBy === playerArr.current) {
-            console.log('creator');
+            // console.log('creator');
             setavatar(createdAvatar);
             setplayerArr({...playerArr, opponent: player2});
         }
         else if(createdBy !== playerArr.current){
-            console.log('creator not');
+            // console.log('creator not');
             let myAvatar = createdAvatar === 'x' ? 'o' : 'x';
             setavatar(myAvatar);
             setplayerArr({...playerArr, opponent: player1});
@@ -113,7 +113,7 @@ const HomeScreen = () => {
     }
 
     const handlePlayTurn = (index) => {
-        console.log('played')
+        // console.log('played')
         setisTurn(playerArr.opponent);
         socket.emit('play', {index, avatar, code, turn: playerArr.opponent, playedBy: playerArr.current});
     }

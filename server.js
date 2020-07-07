@@ -15,10 +15,6 @@ const roomsById = {
         }
     */
 }
-const playersById = {
-
-}
-
 
 const app = express();
 // parse application/x-www-form-urlencoded, application/json
@@ -26,33 +22,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname,'build')));
-
-app.post('/newgame', (req,res) => {
-    console.log(req.body)
-    const roomCode = `${Math.floor(100000 + Math.random() * 900000)}`;
-    console.log(`Creating room: ${roomCode}`)
-    roomsById[roomCode] = {id: roomCode, createdBy: req.body.username, createdAvatar: req.body.avatar, players: [req.body.username], turnCount: 0};
-    res.json({ username: req.body.username, code: roomCode});
-})
-
-app.post('/joingame', (req,res) => {
-    const { username, code } = req.body;
-    console.log(req.body, roomsById)
-    if(Object.keys(roomsById).includes(req.body.code)) {
-        const roomLength = roomsById[code].players.length;
-        if(roomLength < 2) {
-            roomsById[code].players.push(username);
-            const avatar = roomsById[code].createdAvatar === 'x' ? 'o' : 'x';
-            res.json({avatar, opponent: roomsById[code].players[0], msg: "Game Started", success: true});
-        }
-        else if(roomLength === 2) {
-            res.json({msg: "Game is full", success: false})
-        }
-    }
-    else {
-        res.json({msg: "Game not found", success: false})
-    }
-})
 
 app.get('*', (req, res) => {                       
     res.sendFile(path.resolve(__dirname, 'build', 'index.html'));                               
@@ -117,8 +86,6 @@ io.on("connection", async (socket) => {
     // console.log('The turn is of :', {turn})
     io.to(code).emit('started', roomsById[code]);
   })
-  const roomChannels = Object.keys(roomsById);
-  console.log(roomChannels)
   socket.emit("message", `The client is connected ${count}`);
   socket.on("disconnect", () => {
     io.emit('message','Player X left');
