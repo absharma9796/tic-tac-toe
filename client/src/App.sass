@@ -29,6 +29,10 @@ body
     justify-content: flex-start
     padding: 2em
     position: relative
+    span.game-end-msg
+        margin: 1em
+        font-size: 1.25em
+        color: $--dark-peach
     .player-name-header
         display: flex
         width: 100%
@@ -59,8 +63,16 @@ body
             background-color: $--mid-peach
             border-radius: 10px
             box-shadow: 0 0 3px rgba(0,0,0,0.16)
+            display: flex
+            align-items: center
+            justify-content: center
+            position: relative
             &:hover
                 box-shadow: 0 3px 10px rgba(0,0,0,0.16)
+            span.material-icons
+                font-size: 3em
+                color: $--hot-pink
+                position: absolute
 
     .wait-box
         display: flex

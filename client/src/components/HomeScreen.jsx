@@ -17,12 +17,16 @@ const joinRoom = ({username,code}) => {
 const HomeScreen = () => {
     // ['code', 'home','choose','wait','game']
     const [screen, setscreen] = useState("home");
-    const [playerArr, setplayerArr] = useState({current: "Player1", opponent: "Player2"});
+    const [playerArr, setplayerArr] = useState({current: "", opponent: ""});
     const [username, setusername] = useState("");
     const [code, setcode] = useState("");
     const [avatar, setavatar] = useState("");
     const [creator, setcreator] = useState(false);
-    const [isTurn, setisTurn] = useState(false);
+    const [isTurn, setisTurn] = useState('');
+    // const [board, setboard] = useState({0: {0: '', 1: '', 2: ''}, 1: {0: '', 1: '', 2: ''}, 2: {0: '', 1: '', 2: ''}});
+    const [board, setboard] = useState(['','','','','','','','','']);
+    const [winner, setwinner] = useState(null);
+    const [tie, settie] = useState(false);
 
 
     const handleCreateRoom = async () => {
@@ -66,30 +70,56 @@ const HomeScreen = () => {
         }
     });
 
+    socket.on("started", data => {
+        const { turn, board } = data;
+        setisTurn(turn);
+        setscreen('game');
+        setboard(board);
+        setwinner(null);
+        settie(false);
+    });
+
+    socket.on('play_response', data => {
+        const { turn, board, winner } = data;
+        if(winner === null) {
+            setisTurn(turn);
+            setboard(board);
+        }
+        else if(winner === 'tie') {
+            setisTurn(turn);
+            setboard(board);
+            settie(winner);
+        }
+        else{
+            setisTurn(turn);
+            setboard(board);
+            setwinner(winner);
+            // setTimeout(alert(`${winner} won the game`), 5000);
+        }
+    });
+
     const handleSubmitCode = async () => {
         if(code.length < 6) {
             alert('Enter a valid game code');
             return;
         }
-        // const data = await axios.post('/joingame', {username,code})
-        //                     .then(res => {
-        //                         console.log(res);
-        //                         if(res.data.success) {
-        //                             setavatar(res.data.avatar);
-        //                             setopponent(res.data.opponent);
-        //                         }
-        //                     })
-        //                     .catch(err => {
-        //                         console.log(err)
-        //                     })
         setplayerArr({...playerArr, current: username});
         joinRoom({username,code});
         setscreen('wait');
     }
 
     const handleStartGame = () => {
-        setisTurn(true);
-        setscreen('game');
+        socket.emit("start", {turn: playerArr.current, code});
+    }
+
+    const handlePlayTurn = (index) => {
+        console.log('played')
+        setisTurn(playerArr.opponent);
+        socket.emit('play', {index, avatar, code, turn: playerArr.opponent, playedBy: playerArr.current});
+    }
+
+    const handleRestartGame = () => {
+        socket.emit('restart', {code, isTurn});
     }
 
 
@@ -146,7 +176,7 @@ const HomeScreen = () => {
                         <input type="text" className="form-control" maxLength="6" placeholder="code" value={code} onChange={(e) => setcode(e.target.value)}></input>
                     </div>
                     <div className="btn-container">
-                        <button className="btn btn-dark" onClick={handleSubmitCode}>Start Game</button>
+                        <button className="btn btn-dark" onClick={handleSubmitCode}>Join Game</button>
                     </div>
                 </div>
             </div>
@@ -194,7 +224,7 @@ const HomeScreen = () => {
                     {
                         creator ? 
                             <div className="btn-container">
-                                <button className="btn btn-dark" onClick={handleStartGame}>Start Game</button>
+                                <button className="btn btn-dark" disabled={!playerArr.opponent.length} onClick={handleStartGame}>Start Game</button>
                             </div> 
                                 :
                             ""
@@ -215,25 +245,57 @@ const HomeScreen = () => {
             <div className="home-screen">
                 <div className="player-name-header">
                     <div className="player-name-box">
-                        <span className="player-name">{playerArr.current}</span>
-                        <span className={isTurn ? "material-icons is-active" : "material-icons" }>{avatar === 'x' ? 'clear' : 'panorama_fish_eye'}</span>
+                        <span className="player-name">You</span>
+                        <span className={isTurn === playerArr.current ? "material-icons is-active" : "material-icons" }>{avatar === 'x' ? 'clear' : 'panorama_fish_eye'}</span>
                     </div>
                     <div className="player-name-box">
                         <span className="player-name">{playerArr.opponent}</span>
-                        <span className={!isTurn ? "material-icons is-active" : "material-icons" }>{avatar === 'x' ? 'panorama_fish_eye' : 'clear'}</span>
+                        <span className={isTurn !== playerArr.current ? "material-icons is-active" : "material-icons" }>{avatar === 'x' ? 'panorama_fish_eye' : 'clear'}</span>
                     </div>
                 </div>
                 <div className="game-grid">
-                    <div className="game-cell"></div>
-                    <div className="game-cell"></div>
-                    <div className="game-cell"></div>
-                    <div className="game-cell"></div>
-                    <div className="game-cell"></div>
-                    <div className="game-cell"></div>
-                    <div className="game-cell"></div>
-                    <div className="game-cell"></div>
-                    <div className="game-cell"></div>
+                    {
+                        board.map((cell,index) => {
+                            if(cell === '') {
+                                return(
+                                    <div className="game-cell" onClick={(isTurn === playerArr.current) && !winner && !tie ? () => handlePlayTurn(index) : () => {return;}}></div>
+                                )
+                            }
+                            else if(cell === 'x') {
+                                return(
+                                    <div className="game-cell">
+                                        <span className="material-icons">clear</span>
+                                    </div>
+                                )
+                            }
+                            else if(cell === 'o') {
+                                return(
+                                    <div className="game-cell">
+                                        <span className="material-icons">panorama_fish_eye</span>
+                                    </div>
+                                )
+                            }
+                        })
+                    }
                 </div>
+                {
+                    tie ? 
+                        <span className="game-end-msg">It's a Tie</span>
+                            :
+                        ""
+                }
+                {
+                    winner ? 
+                        <span className="game-end-msg">{winner} won the game</span>
+                            :
+                        ""
+                }
+                {
+                    winner || tie ? 
+                        <button className="btn btn-dark" onClick={handleRestartGame}>Play Again?</button>
+                            :
+                        ""
+                }
             </div>
         )
     }
